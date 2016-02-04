@@ -70,7 +70,7 @@ Miz环游世界地图....不一定实用。（<s>其实是旅行强迫症发作�
 * program: GNU GPLv3
 
 ## Preview URL:
-* [http://miz.audio/newproj/nyaamap/](http://miz.audio/newproj/nyaamap/)
+* （由于是私密服务器，所以仅限于nyaa.cat用户范围公开）
 
 ## Original Project
 * [https://nyaa.cat/](https://nyaa.cat/)
