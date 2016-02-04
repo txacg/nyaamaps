@@ -25,15 +25,16 @@ body{
 	background: black;
 }
 div#legend{
-}
-div#legend img{
 	padding: 0.5em;
-	background: rgba(255,255,255,.1);
+	background: rgba(255,255,255,.15);
 	position: absolute;
 	right: 1em;
 	bottom: 1em;
-	width: 19%;
 	z-index: 999;
+	border: none;/* 5px solid #ffffff; */
+}
+div#legend img{
+	width:300px;
 }
 div.ctrl{
 	padding: 0 1em 0 0.1em;

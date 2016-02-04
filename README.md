@@ -1,7 +1,8 @@
 ﻿#Ilse in Nyaacatland
+Miz环游世界地图....不一定实用。（<s>其实是旅行强迫症发作了|||一个月150小时在线是什么情况（</s>
 
 ##Intro
-Miz环游世界地图....不一定实用。（<s>其实是旅行强迫症发作了|||一个月150小时在线是什么情况（</s>
+这是一个关于“喵窝” ( Minecraft ) 的地图作品。但可能应用于所有 Minecraft 地图。
 
 ####包含世界：
 * world
@@ -69,4 +70,8 @@ Miz环游世界地图....不一定实用。（<s>其实是旅行强迫症发作�
 * program: GNU GPLv3
 
 ## Demo URL:
-[http://miz.audio/newproj/nyaamap/](http://miz.audio/newproj/nyaamap/)
+* [http://miz.audio/newproj/nyaamap/](http://miz.audio/newproj/nyaamap/)
+
+## Original Project
+* [https://nyaa.cat/](https://nyaa.cat/)
+* [https://wiki.nyaa.cat/](https://wiki.nyaa.cat/)

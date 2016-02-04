@@ -96,8 +96,8 @@
 
 		styles["Point"] = function (feature, resolution)
 		{
-		   if (feature.get('fontsize') <= 16 && resolution >= 5) return new ol.style.Style();
-		   else if (feature.get('fontsize') < 25 && resolution >= 8) new ol.style.Style();
+		   if (feature.get('fontsize') <= 16 && resolution >= 5) return null; //new ol.style.Style();
+		   else if (feature.get('fontsize') < 25 && resolution >= 8) null; //new ol.style.Style();
 		   return new ol.style.Style(
 		   {
 		      image: new ol.style.RegularShape(
@@ -184,26 +184,7 @@
 
 		var styleFunction = function (feature, resolution)
 		{
-		   if (loaded == false)
-		   {
-		      loaded = true;
-		      document.getElementById('nodes').innerHTML = vectorSource.getFeatures().length;
-		   }
-		   //console.log(feature.lastresolution+","+resolution);
-		   //if(feature.lastresolution!=resolution)
-		   //{
-		   //feature.lastresolution=resolution;
-
-		   if (resolution > 4 && tileLayer.getVisible() == true) tileLayer.setVisible(false);
-		   else if (resolution <= 4 && tileLayer.getVisible() == false) refreshtile();
-		   //feature.setStyle(styles[feature.getGeometry().getType()](feature, resolution));
-		   //return undefined;
 		   return styles[feature.getGeometry().getType()](feature, resolution);
-		   //}
-		   //else
-		   //{
-		   //return undefined;//feature.getStyle();
-		   //}
 		};
 
 
@@ -339,23 +320,32 @@
 		   ],
 		   view: view
 		});
-		//map.on('moveend', cache);
-		var lastresolution;
+		map.on('moveend', onmoveend);
 
-		function cache(evt)
+		var lastresolution = -1;
+
+		function onmoveend(evt)
 		{
-		   /*var resolution=map.getView().getResolution();
-		   console.log('cache '+resolution);
-		   if(lastresolution!=resolution)
+		   if (loaded == false)
 		   {
-		   	lastresolution=resolution;
-		   	var features=vectorSource.getFeatures();
-		   	var l=features.length;
-		   	for(var i=0;i<l;++i)
-		   	{
-		   		styleFunction(features[i],resolution);
-		   	}
-		   }*/
+		      if (vectorSource.getFeatures().length)
+		      { //known issue
+		         loaded = true;
+		         document.getElementById('features').innerHTML = vectorSource.getFeatures().length;
+		      }
+		   }
+		   var resolution = map.getView().getResolution();
+		   //console.log(resolution+","+lastresolution);
+		   if (resolution > lastresolution)
+		   {
+		      lastresolution = resolution;
+		      if (resolution > 4 && tileLayer.getVisible() == true) tileLayer.setVisible(false);
+		   }
+		   else if (resolution < lastresolution)
+		   {
+		      lastresolution = resolution;
+		      if (resolution <= 4 && tileLayer.getVisible() == false) refreshtile();
+		   }
 		}
 		radio_r1(document.querySelector('input[name="r1"]:checked').value);
 
@@ -366,6 +356,7 @@
 
 		function radio_r1(world)
 		{
+		   document.getElementById('features').innerHTML = '';
 		   map.removeLayer(vectorLayer);
 		   map.removeLayer(tileLayer);
 		   worlddir = world;
@@ -375,13 +366,15 @@
 		   map.getView().setResolution(1);
 		   map.getView().setCenter([203, -221]);
 		   refreshtile();
-		   cache();
+		   //cache();
 		}
 
 		function refreshtile(force)
 		{
+		   console.log("Refresh Tile");
 		   if (force === undefined) force = document.getElementById('displaybitmaptile').checked;
 		   document.body.className = force ? 'bg1' : 'bg2';
+		   console.log('tileLayer.setVisible(' + force + ')');
 		   tileLayer.setVisible(force);
 		   displaylegend(document.getElementById('displaylegend').checked);
 		}

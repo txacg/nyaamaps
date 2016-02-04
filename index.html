@@ -3,12 +3,12 @@
   <head>
   	<meta charset="utf-8">
   	<meta http-equiv="cache-control" content="no-cache" />
-	<title>Ilse in Nyaacat land (Preview)</title>
+	<title>Ilse in Nyaacatland (Preview)</title>
 	<link rel="stylesheet" href="http://openlayers.org/en/v3.13.0/css/ol.css" type="text/css">
 	<script src="http://openlayers.org/en/v3.13.0/build/ol.js"></script>
 	<!--<link rel="stylesheet" href="ol.css" type="text/css">
 	<script src="ol.js"></script>-->
-	<link rel="stylesheet" href="nyaa.css?v=1" type="text/css">
+	<link rel="stylesheet" href="nyaa.css?v=2" type="text/css">
   </head>
   <body>
 <div class="ctrl">
@@ -18,8 +18,8 @@
 	<input type="search" id="search" class="search" placeholder="🔎" value=""/>
 	<input id='displaybitmaptile' type="checkbox" onclick="refreshtile()"></input><label for='displaybitmaptile' title='resource-intensive!'>Show Tile Layer</label>
 	<input id='displaylegend' type="checkbox" value="Show Legend" checked="checked" onclick="displaylegend(this.checked)"></input><label for='displaylegend'>Show Legend</label>
-	<label>  /  Nodes : </label>
-	<label id='nodes'></label>
+	<label>  /  Features : </label>
+	<label id='features'></label>
 	<label>  /  Axis : </label>
 </span>
 <div id="mouse-position"></div>
@@ -30,6 +30,6 @@
 </div>
 <div id="legend"><img src='map/legend.png'/></div>
 	<div id="map" class="map"></div>
-	<script src='nyaamap.js?v=1'></script>
+	<script src='nyaamap.js?v=2'></script>
 </body>
 </html>
