@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+  	<meta http-equiv="cache-control" content="no-cache" />
+	<title>Ilse in Nyaacat land (Preview)</title>
+	<link rel="stylesheet" href="http://openlayers.org/en/v3.13.0/css/ol.css" type="text/css">
+	<script src="http://openlayers.org/en/v3.13.0/build/ol.js"></script>
+	<!--<link rel="stylesheet" href="ol.css" type="text/css">
+	<script src="ol.js"></script>-->
+	<link rel="stylesheet" href="nyaa.css?v=1" type="text/css">
+  </head>
+  <body>
+<div class="ctrl">
+<span>
+	<input id='r1_1' name="r1" type="radio" value="world" checked="checked" onclick='radio_r1(this.value)'></input><label for='r1_1'>world</label>
+	<input id='r1_2' name="r1" type="radio" value="world_nether" onclick='radio_r1(this.value)'></input><label for='r1_2'>world_nether</label>
+	<input type="search" id="search" class="search" placeholder="🔎" value=""/>
+	<input id='displaybitmaptile' type="checkbox" onclick="refreshtile()"></input><label for='displaybitmaptile' title='resource-intensive!'>Show Tile Layer</label>
+	<input id='displaylegend' type="checkbox" value="Show Legend" checked="checked" onclick="displaylegend(this.checked)"></input><label for='displaylegend'>Show Legend</label>
+	<label>  /  Nodes : </label>
+	<label id='nodes'></label>
+	<label>  /  Axis : </label>
+</span>
+<div id="mouse-position"></div>
+<span class="right">
+	<label>Data Snapshot: 2016.1.31</label>
+	<label> / fork me on <a target="_blank" href="https://github.com/Mizilse/nyaamaps">Github</a></label>
+</span>
+</div>
+<div id="legend"><img src='map/legend.png'/></div>
+	<div id="map" class="map"></div>
+	<script src='nyaamap.js?v=1'></script>
+</body>
+</html>
