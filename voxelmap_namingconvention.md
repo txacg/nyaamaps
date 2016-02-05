@@ -11,8 +11,8 @@
 * O = 建筑或建筑群（大）
 * S = 车站
 * B = 商店/回收站
-* r = 铁路(Polygon Line) 格式：r-hashname-pointNo e.g. r-a-1 r-a-2   r-b-1
- * rs = 步行线路 (Polygon Line) 格式：rs-hashname-pointNo e.g. rs-a-1 rs-a-2
+* r = 铁路(Polygon Line) 格式：r-hashname-pointNo e.g. r-a-1 r-a-2 r-a-3，会自动转换成多边形。pointNo最小是0，可以不连续。   r-b-1 r-b-2是另一个多边形
+ * rs = 步行线路 (Polygon Line) 格式同r
 
 ## 多字母前缀
 * TELE = 下界传送门/传送点

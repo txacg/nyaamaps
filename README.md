@@ -51,7 +51,7 @@ Miz环游世界地图....不一定实用。（<s>其实是旅行强迫症发作�
 * 灰色的Node是没有经过归类的建筑
 
 ##Source
-矢量数据通过 voxelmap 的路径点转换而来，（特定的命名约定）。因此比较精确的和地图匹配（考虑要不要通过不同颜色来标识y轴数据，不过也不是太需要的样子）。
+矢量数据通过 voxelmap 的路径点转换而来（命名约定参阅 voxelmap_namingconvention.md ）。因此比较精确的和地图匹配（考虑要不要通过不同颜色来标识y轴数据，不过也不是太需要的样子）。
 
 可能的情况下开源或者做成可多人贡献的交互式地图会好一些（？）
 
@@ -62,9 +62,9 @@ Miz环游世界地图....不一定实用。（<s>其实是旅行强迫症发作�
 * 2016.2.5 Preview
 
 ## Used Tools & Libraries
-* voxelmap2geojson (another repository by Miz)
-* GeoJson
-* OpenLayers 3
+* [voxelmap2geojson (another repository by Miz)](https://github.com/Mizilse/voxelmap2geojson)
+* [GeoJson](http://geojson.org/)
+* [OpenLayers 3](http://openlayers.org/)
 
 ## Licence
 * program: GNU GPLv3
