@@ -12,7 +12,8 @@
 		};
 		var createTextStyle = function (feature, resolution)
 		{
-		   if (feature.get('fontsize') <= 16 && resolution >= 1) return new ol.style.Style();
+		   if (feature.get('fontsize') <= 16 && resolution >= 2) return new ol.style.Style();
+		   else if (feature.get('fontsize') <= 19 && resolution > 4) return new ol.style.Style();
 		   var text = getText(feature, resolution);
 		   return new ol.style.Text(
 		   {
@@ -242,15 +243,20 @@
 		         {
 		            if (tileCoord === null) return undefined;
 
+		            //console.log(tileCoord[0]);
+		            var x, y, z;
 		            x = tileCoord[1];
 		            y = -tileCoord[2] - 1;
+		            z = Math.pow(2, tileCoord[0]) / 8;
+		            //console.log(tileCoord[0]);
+		            //console.log(z);
 
-		            return 'map/' + worlddir + '/' + x + ',' + y + '.png';
+		            return 'map/' + worlddir + "/images/z" + z + '/' + x + ',' + y + '.png';
 		         },
 		         tileGrid: new ol.tilegrid.TileGrid(
 		         {
 		            extent: projectionExtent,
-		            resolutions: [1],
+		            resolutions: [8, 4, 2, 1],
 		            tileSize: [256, 256],
 		            origin: [0, 0],
 		         }),
@@ -320,32 +326,35 @@
 		   ],
 		   view: view
 		});
-		map.on('moveend', onmoveend);
+
 
 		var lastresolution = -1;
 
-		function onmoveend(evt)
+		function onchange(evt)
 		{
 		   if (loaded == false)
 		   {
-		      if (vectorSource.getFeatures().length)
-		      { //known issue
-		         loaded = true;
-		         document.getElementById('features').innerHTML = vectorSource.getFeatures().length;
+		      if (vectorSource.getState() == 'ready')
+		      {
+		         if (vectorSource.getFeatures().length)
+		         { //known issue
+		            loaded = true;
+		            document.getElementById('features').innerHTML = vectorSource.getFeatures().length;
+		         }
 		      }
 		   }
-		   var resolution = map.getView().getResolution();
+		   //var resolution = map.getView().getResolution();
 		   //console.log(resolution+","+lastresolution);
-		   if (resolution > lastresolution)
+		   /*if (resolution > lastresolution)
 		   {
 		      lastresolution = resolution;
-		      if (resolution > 4 && tileLayer.getVisible() == true) tileLayer.setVisible(false);
+		      if (resolution > 3 && tileLayer.getVisible() == true) tileLayer.setVisible(false);
 		   }
 		   else if (resolution < lastresolution)
 		   {
 		      lastresolution = resolution;
-		      if (resolution <= 4 && tileLayer.getVisible() == false) refreshtile();
-		   }
+		      if (resolution <= 3 && tileLayer.getVisible() == false) refreshtile();
+		   }*/
 		}
 		radio_r1(document.querySelector('input[name="r1"]:checked').value);
 
@@ -366,6 +375,7 @@
 		   map.getView().setResolution(1);
 		   map.getView().setCenter([203, -221]);
 		   refreshtile();
+		   vectorSource.on('change', onchange);
 		   //cache();
 		}
 
