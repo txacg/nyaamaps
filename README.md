@@ -8,11 +8,11 @@
 * 通过顶部 *search* 定位路径点/路径
 * 可开启/关闭Tile,Vector,User图层
 * 缩放和全屏的功能。
-* 热键：上下左右＋－
-* 放大显示出更细节的物体命名，缩小会自动隐藏。
+* 热键：上下左右＋－  Alt+Shift+Drag
+* 放大显示出更细节的物体命名，缩小自动隐藏。
 
 ##Source
-矢量数据通过 voxelmap 的路径点转换而来（命名约定参阅 voxelmap_namingconvention.md ）。因此比较精确的和地图匹配（考虑要不要通过不同颜色来标识y轴数据，不过也不是太需要的样子）。
+矢量数据通过 voxelmap 的路径点转换（命名约定参阅 voxelmap_namingconvention.md ）。因此比较精确的和地图匹配（考虑要不要通过不同颜色来标识y轴数据，不过也不是太需要的样子）。
 
 ## Data
 ####包含世界：
@@ -62,6 +62,8 @@
  - add mouse click event
  - Better search
  - Better view
+* 2016.2.23
+ - Fix Memory Leaks
 
 ## Used Tools & Libraries
 * [voxelmap2geojson (another repository by Miz)](https://github.com/Mizilse/voxelmap2geojson)

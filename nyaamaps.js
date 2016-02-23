@@ -55,7 +55,27 @@ var style_point_cache = {
    16:
    {},
 };
-
+var cate_cache = {
+   0: "未分类",
+   1: "传送",
+   2: "标识",
+   3: "商业区",
+   4: "地区",
+   5: "城市/村落",
+   6: "农场/牧场",
+   7: "房屋（空）",
+   8: "房屋",
+   9: "商店",
+   10: "建筑（未完成）",
+   11: "公共建筑",
+   12: "车站/停靠点",
+   13: "路线",
+   18: "地下通路",
+   14: "铁路",
+   15: "大型建筑",
+   16: "",
+   17: "坑",
+}
 
 var createTextStyle = function (feature, resolution)
 {
@@ -216,7 +236,7 @@ styles["Point"] = function (feature, resolution)
                   points: 4,
                   radius: feature.get('radius'),
                }),
-               zIndex: 2
+               //zIndex: 2
             }),
             new ol.style.Style(
             {
@@ -237,7 +257,7 @@ styles["Point"] = function (feature, resolution)
                points: 4,
                radius: feature.get('radius') / 3,
             }),
-            zIndex: 2
+            //zIndex: 2
          });
       }
       else if (key == 2)
@@ -254,7 +274,7 @@ styles["Point"] = function (feature, resolution)
                   radius: feature.get('radius') / 2,
                }),
 
-               zIndex: 2
+               //zIndex: 2
             }),
             new ol.style.Style(
             {
@@ -473,7 +493,7 @@ map.on('singleclick', function (evt)
          var coordinate = feature.getGeometry().getCoordinates();
          popup_content.innerHTML =
             '<p class="popup">' +
-            feature.get("name") +
+            feature.get("name") + " (" + cate_cache[feature.get("cate")] + ")" +
             "</p><code>" +
             "( " + Math.round(coordinate[0]) + ", " + Math.round(-coordinate[1]) + ", " + feature.get("y") + " )" +
             "</code>";
@@ -483,7 +503,7 @@ map.on('singleclick', function (evt)
          var coordinate = evt.coordinate;
          popup_content.innerHTML =
             '<p class="popup">' +
-            feature.get("name") +
+            feature.get("name") + " (" + cate_cache[feature.get("cate")] + ")" +
             "</p><code>" +
             "( " + Math.round(coordinate[0]) + ", " + Math.round(-coordinate[1]) + ", " + feature.get("ys")[0] + " )" +
             "</code>";
@@ -650,7 +670,7 @@ function search(w)
          console.log(coordinate);
          popup_content.innerHTML =
             '<p class="popup">' +
-            feature.get("name") +
+            feature.get("name") + " (" + cate_cache[feature.get("cate")] + ")" +
             "</p><code>" +
             "( " + Math.round(coordinate[0]) + ", " + Math.round(-coordinate[1]) + ", " + feature.get("y") + " )" +
             "</code>";
@@ -664,7 +684,7 @@ function search(w)
          console.log(coordinate);
          popup_content.innerHTML =
             '<p class="popup">' +
-            feature.get("name") +
+            feature.get("name") + " (" + cate_cache[feature.get("cate")] + ")" +
             "</p><code>" +
             "( " + Math.round(coordinate[0]) + ", " + Math.round(-coordinate[1]) + ", " + feature.get("ys")[al] + " )" +
             "</code>";
