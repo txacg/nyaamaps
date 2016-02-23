@@ -13,23 +13,60 @@ var getText = function (feature, resolution)
    else if (text) return [text, 0];
    else return '';
 };
+
+var defaultstyle_text = new ol.style.Text(
+{
+   textAlign: 'center',
+   textBaseline: 'top',
+   //font: 
+   //text: text[0],
+   fill: new ol.style.Fill(
+   {
+      color: '#000000'
+   }),
+   stroke: new ol.style.Stroke(
+   {
+      color: [255, 255, 255, .72],
+      width: 2.5
+   }),
+   offsetX: 0,
+   //offsetY: feature.get('radius') + 2 + fs * (text[1]),
+   rotation: 0
+});
+var style_point_cache = {
+   1:
+   {},
+   2:
+   {},
+   4:
+   {},
+   8:
+   {},
+   16:
+   {},
+};
+
+
 var createTextStyle = function (feature, resolution)
 {
    var fs = feature.get('fontsize');
-   if (fs <= 11 && resolution >= 1) return new ol.style.Style();
-   else if (fs <= 13 && resolution >= 2) return new ol.style.Style();
-   else if (fs <= 16 && resolution > 4) return new ol.style.Style();
+   if (fs <= 11 && resolution >= 1) return undefined;
+   else if (fs <= 13 && resolution >= 2) return undefined;
+   else if (fs <= 16 && resolution > 4) return undefined;
 
    if (resolution >= 16) fs /= 2;
    else if (resolution >= 8) fs *= .72;
    var text = getText(feature, resolution);
-   return new ol.style.Text(
+   defaultstyle_text.setFont('Bold ' + fs + 'px Helvetica, "Open Sans", "WenQuanYi Microhei", "Microsoft YaHei", sans-serif');
+   defaultstyle_text.setText(text[0]);
+   defaultstyle_text.setOffsetY(feature.get('radius') + 2 + fs * (text[1]));
+   return defaultstyle_text;
+   /*return new ol.style.Text(
    {
       textAlign: 'center',
       textBaseline: 'top',
-      font: 'Bold ' + fs + 'px Helvetica, Microsoft YaHei, sans-serif',
+      font: 'Bold ' + fs + 'px Helvetica, "Open Sans", "WenQuanYi Microhei", "Microsoft YaHei", sans-serif',
       text: text[0],
-      //title: 'ttt',
       fill: new ol.style.Fill(
       {
          color: '#000000'
@@ -43,9 +80,10 @@ var createTextStyle = function (feature, resolution)
       offsetY: feature.get('radius') + 2 + fs * (text[1]),
       rotation: 0
    });
+   */
 };
 
-styles["Polygon"] = function (feature, resolution)
+/*styles["Polygon"] = function (feature, resolution)
 {
    return new ol.style.Style(
    {
@@ -62,7 +100,7 @@ styles["Polygon"] = function (feature, resolution)
 };
 styles["MultiPolygon"] =
    styles["Polygon"];
-
+*/
 
 styles["LineString"] = function (feature, resolution)
 {
@@ -88,155 +126,140 @@ styles["LineString"] = function (feature, resolution)
  });
 
  return styles;*/
-
-
-   return new ol.style.Style(
+   var cate;
+   if (style_point_cache[resolution].hasOwnProperty(cate = feature.get('cate')))
    {
-      stroke: new ol.style.Stroke(
-      {
-         color: feature.get('color'),
-         width: 1.25
-      }),
-      //text: createTextStyle(feature, resolution),
-   })
+      return style_point_cache[resolution][cate];
+   }
+   else
+   {
+      return style_point_cache[resolution][cate] =
+         new ol.style.Style(
+         {
+            stroke: new ol.style.Stroke(
+            {
+               color: feature.get('color'),
+               width: 1.25
+            }),
+            //text: createTextStyle(feature, resolution),
+         });
+   }
 };
-styles["MultiLineString"] =
-   styles["LineString"];
+//styles["MultiLineString"] =
+//   styles["LineString"];
 
 styles["Point"] = function (feature, resolution)
 {
    var fs = feature.get('fontsize');
-   if (fs <= 16 && resolution >= 16) return null;
+   if (fs <= 16 && resolution >= 16) return undefined;
+
    var key = 0;
    if (fs <= 13 && resolution >= 5) key = 1; //new ol.style.Style();
    else if (fs <= 16 && resolution >= 8) key = 1; //new ol.style.Style();
    else if (resolution >= 8) key = 2;
-   if (key == 0)
+
+   var cate;
+   if (style_point_cache[resolution].hasOwnProperty(cate = feature.get('cate')))
    {
-      return new ol.style.Style(
+      if (key == 0)
       {
-         image: new ol.style.RegularShape(
-         {
-            fill: new ol.style.Fill(
+         return [style_point_cache[resolution][cate],
+            new ol.style.Style(
             {
-               color: feature.get('color')
-            }),
-            stroke: new ol.style.Stroke(
+               text: createTextStyle(feature, resolution)
+            })
+         ];
+      }
+      else if (key == 1)
+      {
+         return style_point_cache[resolution][cate];
+      }
+      else if (key == 2)
+      {
+         return [style_point_cache[resolution][cate],
+            new ol.style.Style(
             {
-               color: [0, 0, 0, .72],
-               width: 1.25
-            }),
-            points: 4,
-            radius: feature.get('radius'),
-         }),
-         text: createTextStyle(feature, resolution),
-         zIndex: 2
-      });
+               text: createTextStyle(feature, resolution)
+            })
+         ];
+      }
    }
-   else if (key == 1)
+   else
    {
-      return new ol.style.Style(
+      if (key == 0)
       {
-         image: new ol.style.RegularShape(
-         {
-            fill: new ol.style.Fill(
+         return [style_point_cache[resolution][cate] = new ol.style.Style(
             {
-               color: feature.get('color')
+               image: new ol.style.RegularShape(
+               {
+                  fill: new ol.style.Fill(
+                  {
+                     color: feature.get('color')
+                  }),
+                  stroke: new ol.style.Stroke(
+                  {
+                     color: [0, 0, 0, .72],
+                     width: 1.25
+                  }),
+                  points: 4,
+                  radius: feature.get('radius'),
+               }),
+               zIndex: 2
             }),
-            points: 4,
-            radius: feature.get('radius') / 3,
-         }),
-         zIndex: 2
-      });
-   }
-   else if (key == 2)
-   {
-      return new ol.style.Style(
+            new ol.style.Style(
+            {
+               text: createTextStyle(feature, resolution)
+            })
+         ];
+      }
+      else if (key == 1)
       {
-         image: new ol.style.RegularShape(
+         return style_point_cache[resolution][cate] = new ol.style.Style(
          {
-            fill: new ol.style.Fill(
+            image: new ol.style.RegularShape(
             {
-               color: feature.get('color')
+               fill: new ol.style.Fill(
+               {
+                  color: feature.get('color')
+               }),
+               points: 4,
+               radius: feature.get('radius') / 3,
             }),
-            points: 4,
-            radius: feature.get('radius') / 2,
-         }),
-         text: createTextStyle(feature, resolution),
-         zIndex: 2
-      });
+            zIndex: 2
+         });
+      }
+      else if (key == 2)
+      {
+         return [style_point_cache[resolution][cate] = new ol.style.Style(
+            {
+               image: new ol.style.RegularShape(
+               {
+                  fill: new ol.style.Fill(
+                  {
+                     color: feature.get('color')
+                  }),
+                  points: 4,
+                  radius: feature.get('radius') / 2,
+               }),
+
+               zIndex: 2
+            }),
+            new ol.style.Style(
+            {
+               text: createTextStyle(feature, resolution)
+            })
+         ];
+      }
    }
 };
-styles["MultiPoint"] =
-   styles["Point"];
+/*styles["MultiPoint"] =
+   styles["Point"];*/
 
 /*styles["GeometryCollection"] =
 	styles["Polygon"].concat(
 		styles["Point"]
 	);*/
 
-//fine divider
-var namelengthfontspan = 1.8;
-var namelengthperline = 6 * namelengthfontspan;
-
-function cross(text, temp, spaceReplacer)
-{
-   var e = 0;
-   //var emax=0;
-   var text2 = "";
-   var at = 0;
-   var cat;
-   var l = text.length;
-   if (l <= 6) return [text, 0];
-   cat = text.charCodeAt(0);
-   for (var i = 0; i < l; ++i)
-   {
-      text2 += text.charAt(i);
-      if (cat < 256)
-      {
-         e += 1;
-      }
-      else
-      {
-         e += namelengthfontspan;
-      }
-      if (e >= namelengthperline && i < l - 1 && ((cat = text.charCodeAt(i + 1)) >= 256 || cat < 40))
-      {
-         e = 0;
-         ++at;
-         text2 += spaceReplacer; //.push("");
-      }
-   }
-   //text2.push(emax);//max text
-   return [text2, at];
-}
-
-function stringDivider(str, width, spaceReplacer)
-{
-   if (str.length > width)
-   {
-      var p = width;
-      while (p > 0 && (str[p] != ' ' && str[p] != '-'))
-      {
-         p--;
-      }
-      if (p > 0)
-      {
-         var left;
-         if (str.substring(p, p + 1) == '-')
-         {
-            left = str.substring(0, p + 1);
-         }
-         else
-         {
-            left = str.substring(0, p);
-         }
-         var right = str.substring(p + 1);
-         return left + spaceReplacer + stringDivider(right, width, spaceReplacer);
-      }
-   }
-   return str;
-}
 
 var styleFunction = function (feature, resolution)
 {
@@ -571,7 +594,7 @@ map.on('pointermove', function(e) {
 
 
 
-
+/* search */
 var lastfind = 0;
 
 function search(w)
@@ -645,7 +668,76 @@ function search(w)
       map.getView().setCenter(coordinate);
    }
 }
-//console.log(tileLayer.getSource().getTileGrid());
+
+
+
+
+
+/* common funcs */
+
+//fine divider
+var namelengthfontspan = 1.8;
+var namelengthperline = 6 * namelengthfontspan;
+
+function cross(text, temp, spaceReplacer)
+{
+   var e = 0;
+   //var emax=0;
+   var text2 = "";
+   var at = 0;
+   var cat;
+   var l = text.length;
+   if (l <= 6) return [text, 0];
+   cat = text.charCodeAt(0);
+   for (var i = 0; i < l; ++i)
+   {
+      text2 += text.charAt(i);
+      if (cat < 256)
+      {
+         e += 1;
+      }
+      else
+      {
+         e += namelengthfontspan;
+      }
+      if (e >= namelengthperline && i < l - 1 && ((cat = text.charCodeAt(i + 1)) >= 256 || cat < 40))
+      {
+         e = 0;
+         ++at;
+         text2 += spaceReplacer; //.push("");
+      }
+   }
+   //text2.push(emax);//max text
+   return [text2, at];
+}
+
+function stringDivider(str, width, spaceReplacer)
+{
+   if (str.length > width)
+   {
+      var p = width;
+      while (p > 0 && (str[p] != ' ' && str[p] != '-'))
+      {
+         p--;
+      }
+      if (p > 0)
+      {
+         var left;
+         if (str.substring(p, p + 1) == '-')
+         {
+            left = str.substring(0, p + 1);
+         }
+         else
+         {
+            left = str.substring(0, p);
+         }
+         var right = str.substring(p + 1);
+         return left + spaceReplacer + stringDivider(right, width, spaceReplacer);
+      }
+   }
+   return str;
+}
+
 function hexToRgb(hex)
 {
    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
