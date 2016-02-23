@@ -4,7 +4,7 @@
   	<meta charset="utf-8" />
   	<meta http-equiv="cache-control" content="no-cache" />
   	<meta name="description" content="一个徒步旅行制成的地图...说明在右上角Readme" />
-	<title>Ilse in Nyaacatland</title>
+	<title>Nyaacat Unofficial Maps by Mizilse</title>
 	<link rel="stylesheet" href="http://openlayers.org/en/v3.13.0/css/ol.css" type="text/css" />
 	<script src="http://openlayers.org/en/v3.13.0/build/ol.js"></script>
 	<!--<link rel="stylesheet" href="ol.css" type="text/css">
@@ -21,11 +21,10 @@
 		<input id='displayvector' type="checkbox" checked="checked" onclick="refreshtile()"></input><label for='displayvector'>Vector Layer</label>
 		<input id='displayuser' type="checkbox" onclick="refreshtile()"></input><label for='displayuser'>User Layer</label>
 		<input id='displaylegend' type="checkbox" value="Show Legend" checked="checked" onclick="displaylegend(this.checked)"></input><label for='displaylegend'>Legend</label>
-		<label>  / </label>
-		<div id="mouse-position"></div>
 	</div>
 	<div class="right">
-		<label>Features : </label>
+		<div id="mouse-position"></div>
+		<label> / Features : </label>
 		<label id='features'></label>
 		<label> / Data: 2016.2.21 2:29</label>
 		<label> / <a target="_blank" href="https://github.com/Mizilse/nyaamaps">Repo</a></label>
@@ -40,6 +39,6 @@
           <div id="popup-content"></div>
       </div>
 	</div>
-	<script src='nyaamaps.js?v=9'></script>
+	<script src='nyaamaps.js?v=10'></script>
 </body>
 </html>

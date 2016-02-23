@@ -34,6 +34,16 @@ var defaultstyle_text = new ol.style.Text(
    rotation: 0
 });
 var style_point_cache = {
+   0.03125:
+   {},
+   0.0625:
+   {},
+   0.125:
+   {},
+   0.25:
+   {},
+   0.5:
+   {},
    1:
    {},
    2:
@@ -129,10 +139,12 @@ styles["LineString"] = function (feature, resolution)
    var cate;
    if (style_point_cache[resolution].hasOwnProperty(cate = feature.get('cate')))
    {
+      //console.log("ret cache "+resolution+","+cate);
       return style_point_cache[resolution][cate];
    }
    else
    {
+      //console.log("ret ncache "+resolution+","+cate);
       return style_point_cache[resolution][cate] =
          new ol.style.Style(
          {
@@ -322,7 +334,7 @@ var tilefnc = function (tileCoord, pixelRatio, projection)
    //console.log(tileCoord[0]);
    //console.log(z);
 
-   return 'map/' + worlddir + orgfix + "/images/z" + z + '/' + x + ',' + y + '.png';
+   return 'map/' + worlddir + orgfix + "/images/z" + z + '/' + x + ',' + y + '.png?d=' + (Math.floor(Date.now() / 14400000));
 };
 
 function createlayers()
