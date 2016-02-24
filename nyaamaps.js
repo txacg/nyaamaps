@@ -489,17 +489,27 @@ map.on('singleclick', function (evt)
 {
    clg(evt.pixel, evt.coordinate);
 });
-
-map.on('pointerdrag', function (evt)
-{
-   //console.log("draglock");
-   draglock = true;
-});
-map.on('moveend', function (evt)
+map.on('postrender', function (evt)
 {
 
-   //console.log("dragunlock "+evt.dragging);
-   draglock = false;
+   if (!draglock)
+   {
+      if (evt.frameState.animate)
+      {
+         //console.log(evt.frameState);
+         draglock = true;
+         console.log("lock");
+      }
+   }
+   else
+   {
+      if (!evt.frameState.animate)
+      {
+         //console.log(evt.frameState);
+         draglock = Date.now() + 500;
+         console.log("unlock");
+      }
+   }
 });
 
 var lastresolution = -1;
@@ -658,7 +668,8 @@ map.on('pointermove', function (e)
 
 function getcursor()
 {
-   if (!lastpixel || draglock) return;
+   //console.log(ol.map.PreRenderFunction());
+   if (!lastpixel || draglock === true || draglock > Date.now()) return;
    if (Date.now() - positionlastmove >= 240)
    {
       clg(lastpixel, lastcoord);

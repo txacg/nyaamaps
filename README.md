@@ -63,7 +63,12 @@
  - Better search
  - Better view
 * 2016.2.23
- - Fix Memory Leaks
+ - Fix memory leak issues
+* 2016.2.24
+ - Mouse hover Tooltips
+ - Categorized tooltip title
+* 2016.2.25
+ - Mouse hover lag fix
 
 ## Used Tools & Libraries
 * [voxelmap2geojson (another repository by Miz)](https://github.com/Mizilse/voxelmap2geojson)
