@@ -489,17 +489,16 @@ map.on('singleclick', function (evt)
 {
    clg(evt.pixel, evt.coordinate);
 });
-map.on('move', function (evt)
-{
-   console.log("DEBUG move", 3);
-});
 
-map.on('drag', function ()
+map.on('pointerdrag', function (evt)
 {
+   //console.log("draglock");
    draglock = true;
 });
 map.on('moveend', function (evt)
 {
+
+   //console.log("dragunlock "+evt.dragging);
    draglock = false;
 });
 
@@ -588,7 +587,7 @@ function settristate()
 
 function refreshtile()
 {
-   console.log("Refresh Tile");
+   //console.log("Refresh Tile");
    var force;
    //force = document.getElementById('displaybitmaptile').checked ? 1 : 0;
    force |= document.getElementById('displayvector').checked ? 2 : 0;
@@ -644,28 +643,25 @@ var lastcoord, lastpixel;
 setInterval(getcursor, 240);
 map.on('pointermove', function (e)
 {
+   lastpixel = map.getEventPixel(e.originalEvent);
+   lastcoord = map.getEventCoordinate(e.originalEvent);
+   positionlastmove = Date.now();
 
-   if (e.dragging || draglock)
+   if (e.dragging)
    {
       //$(element).popover('destroy');
       return;
    }
-   lastpixel = map.getEventPixel(e.originalEvent);
-   lastcoord = map.getEventCoordinate(e.originalEvent);
    var coord = ol.proj.transform(lastcoord, projection0, projection)
    positionctrl.innerHTML = Math.round(coord[0]) + ", " + Math.round(coord[1]) + " / ";
-   positionlastmove = Date.now();
 });
 
 function getcursor()
 {
-   if (!lastpixel) return;
+   if (!lastpixel || draglock) return;
    if (Date.now() - positionlastmove >= 240)
    {
       clg(lastpixel, lastcoord);
-      //clg(
-      //var hit=map.hasFeatureAtPixel(lastxy);
-      //console.log(hit);
    }
 }
 
