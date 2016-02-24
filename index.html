@@ -1,37 +1,44 @@
 <!DOCTYPE html>
 <html>
   <head>
-  	<meta charset="utf-8">
+  	<meta charset="utf-8" />
   	<meta http-equiv="cache-control" content="no-cache" />
-  	<meta name="description" content="一个徒步旅行制成的地图...见右上角Readme">
-	<title>Ilse in Nyaacatland</title>
-	<link rel="stylesheet" href="http://openlayers.org/en/v3.13.0/css/ol.css" type="text/css">
+  	<meta name="description" content="一个徒步旅行制成的地图...说明在右上角Readme" />
+	<title>Nyaacat Unofficial Maps by Mizilse</title>
+	<link rel="stylesheet" href="http://openlayers.org/en/v3.13.0/css/ol.css" type="text/css" />
 	<script src="http://openlayers.org/en/v3.13.0/build/ol.js"></script>
 	<!--<link rel="stylesheet" href="ol.css" type="text/css">
 	<script src="ol.js"></script>-->
-	<link rel="stylesheet" href="nyaamaps.css?v=3" type="text/css">
+	<link rel="stylesheet" href="nyaamaps.css?v=17" type="text/css" />
   </head>
   <body>
 <div class="ctrl">
-<span>
-	<input id='r1_1' name="r1" type="radio" value="world" checked="checked" onclick='radio_r1(this.value)'></input><label for='r1_1'>world</label>
-	<input id='r1_2' name="r1" type="radio" value="world_nether" onclick='radio_r1(this.value)'></input><label for='r1_2'>world_nether</label>
-	<input type="search" id="search" class="search" placeholder="🔎" value=""/>
-	<input id='displaybitmaptile' type="checkbox" onclick="refreshtile()"></input><label for='displaybitmaptile' title='resource-intensive!'>Show Tile Layer</label>
-	<input id='displaylegend' type="checkbox" value="Show Legend" checked="checked" onclick="displaylegend(this.checked)"></input><label for='displaylegend'>Show Legend</label>
-	<label>  /  Features : </label>
-	<label id='features'></label>
-	<label>  /  Axis : </label>
-</span>
-<div id="mouse-position"></div>
-<span class="right">
-	<label>Data Snapshot: 2016.1.31</label>
-	<label> / <a target="_blank" href="https://github.com/Mizilse/nyaamaps">Readme! (Help)</a></label>
-	<label> / <a target="_blank" href="http://miz.audio/">Miz' Reso (Blog)</a></label>
-</span>
+	<div class="left">
+		<input id='r1_1' name="r1" type="radio" value="world" checked="checked" onclick='radio_r1(this.value)'></input><label for='r1_1'>world</label>
+		<input id='r1_2' name="r1" type="radio" value="world_nether" onclick='radio_r1(this.value)'></input><label for='r1_2'>world_nether</label>
+		<input type="search" id="search" class="search" placeholder="🔎" value=""/>
+		<input id='displaybitmaptile' type="checkbox" checked="checked" onclick="chgtristate()"></input><label for='displaybitmaptile'>L-Tile</label>
+		<input id='displayvector' type="checkbox" checked="checked" onclick="refreshtile()"></input><label for='displayvector'>L-Vector</label>
+		<input id='displayuser' type="checkbox" onclick="refreshtile()"></input><label for='displayuser'>L-User</label>
+		<input id='displaylegend' type="checkbox" value="Show Legend" checked="checked" onclick="displaylegend(this.checked)"></input><label for='displaylegend'>Legend</label>
+	</div>
+	<div class="right">
+		<span id="mouse-position"></span>
+		<label> / Features : </label>
+		<label id='features'></label>
+		<label> / Data: 2016.2.24 19:39</label>
+		<label> / <a target="_blank" href="https://github.com/Mizilse/nyaamaps">Repo</a></label>
+		<label> / <a target="_blank" href="https://bbs.nyaa.cat/d/176-wip">Readme!</a></label>
+		<label> / <a target="_blank" href="http://miz.audio/">Miz' Reso (Blog)</a></label>
+	</div>
 </div>
-<div id="legend"><img src='map/legend.png'/></div>
-	<div id="map" class="map"></div>
-	<script src='nyaamaps.js?v=2'></script>
+<div id="legend"><img src='map/legend.png?v=2'/></div>
+	<div id="map" class="map" tabindex="0">
+      <div id="popup" class="ol-popup">
+          <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+          <div id="popup-content"></div>
+      </div>
+	</div>
+	<script src='nyaamaps.js?v=17'></script>
 </body>
 </html>
