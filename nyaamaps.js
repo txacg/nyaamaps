@@ -496,9 +496,10 @@ map.on('postrender', function (evt)
    {
       if (evt.frameState.animate)
       {
-         //console.log(evt.frameState);
+         lastpixel = null;
+         //console.log("lastpixel=null");
          draglock = true;
-         console.log("lock");
+         //console.log("lock");
       }
    }
    else
@@ -506,8 +507,9 @@ map.on('postrender', function (evt)
       if (!evt.frameState.animate)
       {
          //console.log(evt.frameState);
-         draglock = Date.now() + 500;
-         console.log("unlock");
+         draglock = false;
+         positionlastmove = Date.now() + 500;
+         //console.log("unlock");
       }
    }
 });
@@ -653,6 +655,7 @@ var lastcoord, lastpixel;
 setInterval(getcursor, 240);
 map.on('pointermove', function (e)
 {
+   //console.log('pointermove');
    lastpixel = map.getEventPixel(e.originalEvent);
    lastcoord = map.getEventCoordinate(e.originalEvent);
    positionlastmove = Date.now();
@@ -668,8 +671,8 @@ map.on('pointermove', function (e)
 
 function getcursor()
 {
-   //console.log(ol.map.PreRenderFunction());
-   if (!lastpixel || draglock === true || draglock > Date.now()) return;
+   //console.log(lastpixel);
+   if (!lastpixel || draglock === true) return;
    if (Date.now() - positionlastmove >= 240)
    {
       clg(lastpixel, lastcoord);
@@ -678,6 +681,7 @@ function getcursor()
 
 function clg(pixel, coordinate)
 {
+   lastpixel = false;
    //console.log("clg");
    var hit = map.forEachFeatureAtPixel(pixel, function (feature, layer)
    {
